@@ -1,0 +1,42 @@
+{
+  "rules": [
+    {
+      "id": "R001",
+      "name": "Port Scan Detection",
+      "type": "port_scan",
+      "threshold": 10,
+      "window_seconds": 5,
+      "severity": "high"
+    },
+    {
+      "id": "R002",
+      "name": "Blacklisted IP Connection",
+      "type": "blacklist_ip",
+      "blacklist": ["203.0.113.5", "198.51.100.23"],
+      "severity": "critical"
+    },
+    {
+      "id": "R003",
+      "name": "Malicious Payload Signature",
+      "type": "payload_match",
+      "keywords": ["DROP TABLE", "<script>", "cmd.exe", "/etc/passwd", "UNION SELECT"],
+      "severity": "high"
+    },
+    {
+      "id": "R004",
+      "name": "SSH Brute Force Attempt",
+      "type": "brute_force",
+      "port": 22,
+      "threshold": 5,
+      "window_seconds": 10,
+      "severity": "medium"
+    },
+    {
+      "id": "R005",
+      "name": "Suspicious/Backdoor Port Access",
+      "type": "restricted_port",
+      "ports": [4444, 31337, 6667],
+      "severity": "critical"
+    }
+  ]
+}

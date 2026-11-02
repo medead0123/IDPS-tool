@@ -1,0 +1,8 @@
+{
+  "policies": {
+    "critical": { "action": "block", "notify": true, "log": true },
+    "high":     { "action": "alert", "notify": true, "log": true },
+    "medium":   { "action": "log",   "notify": false, "log": true },
+    "low":      { "action": "log",   "notify": false, "log": true }
+  }
+}

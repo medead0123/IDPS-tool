@@ -1,0 +1,29 @@
+# suricata_reference.rules
+#
+# This file is NOT executed by the Python project. It is a reference
+# showing how the same 5 detection rules used in rules.json would be
+# written in real Suricata rule syntax, for documentation / demo purposes.
+# (Suricata is a widely used open-source IDPS in real SOC environments.)
+
+# R004 - SSH Brute Force Attempt
+alert tcp any any -> $HOME_NET 22 (msg:"Possible SSH Brute Force"; flow:to_server; \
+  threshold:type threshold, track by_src, count 5, seconds 10; \
+  classtype:attempted-admin; sid:1000001; rev:1;)
+
+# R003 - SQL Injection Attempt
+alert tcp any any -> $HOME_NET any (msg:"SQL Injection Attempt - DROP TABLE"; \
+  content:"DROP TABLE"; nocase; classtype:web-application-attack; sid:1000002; rev:1;)
+
+# R002 - Blacklisted IP Connection
+alert ip $HOME_NET any -> [203.0.113.5,198.51.100.23] any \
+  (msg:"Connection to Blacklisted IP"; classtype:policy-violation; sid:1000003; rev:1;)
+
+# R005 - Suspicious/Backdoor Port Access
+alert tcp any any -> $HOME_NET [4444,31337,6667] \
+  (msg:"Suspicious Port Access - Possible Backdoor"; classtype:trojan-activity; sid:1000004; rev:1;)
+
+# R001 - Port Scan Detection
+alert tcp any any -> $HOME_NET any \
+  (msg:"Possible Port Scan Detected"; flags:S; \
+  threshold:type threshold, track by_src, count 10, seconds 5; \
+  classtype:attempted-recon; sid:1000005; rev:1;)
